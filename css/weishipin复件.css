@@ -1,0 +1,84 @@
+@charset "utf-8";
+/* CSS Document */
+
+#header{
+	position:absolute;
+	top:0px;
+	left:0px;
+	text-align:center;
+	background-color:#999;
+	font-family: Microsoft YaHei;
+	font-size: 38.5px;
+	color: #FFF;
+	height:50px;
+	width:100%;
+}
+
+#menu{
+	position:absolute;
+	top:55px;
+	left:0px;
+	background-color:#ededed;
+	text-align:right;
+	height:35px;
+	width:100%;
+
+}
+#menu1{
+	position:absolute;
+	top:1286px;
+	left:0px;
+	background-color:#ededed;
+	text-align:right;
+	height:35px;
+	width:100%;
+}
+
+.search-submit{
+	color:#ff7112;
+	width: 50px;
+	height: 30px;
+	font-size:10px;
+}
+#container{
+	margin:50px 0 20px 0;	
+}
+#main{
+	margin:100px 0 0 60px;
+	height:1200px;
+	width:1150px;
+	padding-bottom:20px;
+}
+.video{
+	background-color:#ededed;
+	float:left;
+	top:80px;
+	left:0px;
+	width:360px;
+	height:270px;
+	margin:5px 10px 20px 10px;
+}
+#footer{
+	margin:0px;
+	padding-bottom:20px;
+	width:100%;
+	font-size:14px;
+	text-decoration:none;
+	text-align:center;
+	font-family:Microsoft YaHei;
+}
+#jilu1{
+	
+	
+}
+#jilu2{
+	margin-right: -493px;
+	padding-left: 360px;
+	text-align:right;
+}
+a{
+	text-decoration:none;
+}
+
+
+

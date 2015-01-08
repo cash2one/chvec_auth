@@ -1,0 +1,79 @@
+@charset "utf-8";
+/* CSS Document */
+
+#header{
+	margin: 0 auto;
+	padding-top: 5px;
+	letter-spacing: 2px;
+	text-align:center;
+	background-color:#999;
+	font-family: Microsoft YaHei;
+	font-size: 38.5px;
+	color: #FFF;
+	height:50px;
+	width:1200px;
+}
+#form-search{
+	float: left;
+	padding-left: 5px;
+}
+
+#menu{
+	margin: -16px auto 0 auto;
+	background-color:#ededed;
+	text-align:right;
+	height:35px;
+	width:1200px;
+
+}
+#menu1{
+	margin: 0 auto;
+	background-color:#ededed;
+	text-align:right;
+	height:35px;
+	width:1200px;
+}
+
+
+#container{
+	margin:-80px 0 20px 0;	
+}
+#main{
+	margin:100px auto 0 auto;
+	height:1200px;
+	width:1150px;
+	padding-bottom:20px;
+}
+.video{
+	background-color:#ededed;
+	float:left;
+	top:80px;
+	left:0px;
+	width:360px;
+	height:261px;
+	margin:16px 10px 20px 10px;
+}
+#footer{
+	margin:0px;
+	padding-bottom:20px;
+	width:100%;
+	font-size:14px;
+	text-decoration:none;
+	text-align:center;
+	font-family:Microsoft YaHei;
+}
+#jilu1{
+	
+	
+}
+#jilu2{
+	margin-right: -493px;
+	padding-left: 360px;
+	text-align:right;
+}
+a{
+	text-decoration:none;
+}
+
+
+
