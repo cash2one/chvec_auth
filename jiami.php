@@ -1,12 +1,14 @@
 <?php
-$file_name = $_POST['fileName']; 
+	$file_info = $_POST['fileName']; 
 	$file_dir = "/var/www/chvec_auth/video_auth/";
+	include "lib/connect.php";
 	include "encrypt.php";
 // 设文件a.mpg已经创建，并且有权操作
 // 但还是加上权限设定的语句，比较保险
 // chmod(dirname(__FILE__), 0777); // 以最高操作权限操作当前目录
 // 打开a.mpg文件，这里采用的是a+，也可以用a，a+为可读可写，a为只写，如果b.php不能存在则会创建它
-
+        $name = explode(" ",$file_info);
+	$file_name = $name[0];
 
 if (file_exists($file_dir . $file_name)) { //检查文件是否存在 
 		
@@ -15,7 +17,8 @@ $op = 'a+';
 $file = fopen($file_dir . $file_name, $op); // a模式就是一种追加模式，如果是w模式则会删除之前的内容再添加
 // 获取需要写入的内容
 
-$info = 'ChinaVEC '.$file_name;
+
+$info = 'ChinaVEC '.$file_info;
 
 
 

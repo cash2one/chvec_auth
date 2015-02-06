@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="renderer" content="webkit" />
 <link href="css/redmond/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" />
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
@@ -53,6 +52,7 @@
           $nums = mysql_num_rows($result); 
   //$nm = mysql_num_rows($result);
   while ($result_row = mysql_fetch_assoc($result)) {
+//print_r($result_row);
     echo <<<VIDEO
         <div class="video">
           <video width="352" height="264" controls="controls" poster="../chinavec/data-storage/video/poster/h/{$result_row['id']}.jpg" preload="none" loop="loop">
@@ -64,7 +64,7 @@
 		<param value="high" name="quality">
 		<param value="false" name="cachebusting">
 		<param value="#000000" name="bgcolor">
-		<param name="flashvars" value='config={"clip":{"url":"http://222.31.88.66/chvec_auth/video/{$result_row['id']}.mp4","autoPlay":false,"autoBuffering":true}}' />
+		<param name="flashvars" value='config={"clip":{"url":"http://222.31.64.201/chvec_auth/video/{$result_row['id']}.mp4","autoPlay":false,"autoBuffering":true}}' />
 		</object>
           </video>
           <input style="margin-left:16px;margin-top:0px" type="radio" name="svideo" value="{$result_row['id']}" />{$result_row['title_cn']}
@@ -102,6 +102,17 @@ VIDEO;
                 }else{
                     echo '&nbsp;&nbsp;&nbsp;<span>下一页</span>';
                 }
+		
+		echo "&nbsp;<select name='chg_go' style='width:54px' onchange=\"window.location.href='play.php?page_no='+this.value\">";
+		for($a=1;$a<=$page;$a++){
+			if($a==$page_no){
+				echo "<option value=\"".$a."\"selected>".$a."</option>\n";
+			}else{
+				echo "<option value=\"".$a."\">".$a."</option>\n";
+			}
+		}
+		echo "</select>\n页";
+		
         ?>
     </span>          
 </div>

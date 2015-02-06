@@ -35,7 +35,8 @@
 		$len = strlen("$jvideo");
 if ($len==11) 
 		{
-			$mima = substr($all_str,-72,43);
+			$mima = substr($all_str,-98,58);
+//-72,43
 //echo "密码：".$mima; //在界面上显示出来所加密的密码内容
 //exit;
 //echo "<br>";
@@ -46,10 +47,12 @@ if ($len==11)
 		}else
 			{
 				echo '<br />'.'<br />'.'此视频来自微视频协作与交易平台'.'<br />'.'<br />'.'密码：'.$mima.'<br />'.'<br />'.'解密：'.$mingwen;//解密
+
 		}
 	}else
 			{
-				$mima = substr($all_str,-74,44);
+				$mima = substr($all_str,-100,60);
+//-74,44
 //echo "密码：".$mima; //在界面上显示出来所加密的密码内容
 //exit;
 //echo "<br>";

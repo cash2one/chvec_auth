@@ -1,4 +1,13 @@
-<?php include 'lib/header.php'; ?>
+<?php
+session_start();
+if((@!$_SESSION['user'])or(@!$_SESSION['password'])){
+//echo "<script type=\"text/javascript\">alert('请先登录');</script>";
+			 header("refresh:0;url=login.php");//跳转页面
+			//echo "<script type=\"text/javascript\">window.location.href=\"login.php\";</script>";
+}
+?>
+<?php include 'lib/header.php';
+	//include"lib/connect.php"; ?>
 <style type="text/css">
 	#authForm {
 		margin-top: 50px;
@@ -10,31 +19,92 @@
 	#ui-datepicker-div .ui-datepicker-title select {
 		width: 42%;
 	}
+/*
+	.authcontent{
+		text-align:center;
+		position:relative;
+		margin:40px auto 0px auto;
+	}
+	.selauthvideo{
+		margin:0px 0px 0px 315px;
+		height:40px;
+	}
+	.row{
+		
+		height:40px;
+	}
+	.column1{
+		width:150px;
+		padding:2px;
+	}
+*/
 </style>
+
+
+
+<script>
+$(function() {
+$( "#tabs" ).tabs();
+});
+
+$(document).ready(function(){
+	$("#outdated_copy").click(function(){
+		$("#tabs-2").load("pre_delete.php",{out:"",id:""});
+	});
+
+	$("#tab4").click(function(){
+		window.location.href='http://222.31.64.143/chvec_auth/index_en.php?page_no=1#tabs-4';
+	});
+	$("#tab3").click(function(){
+		window.location.href='http://222.31.64.143/chvec_auth/index_en.php?page_no=1#tabs-3';
+	});
+	$("#tab1").click(function(){
+		window.location.href='http://222.31.64.143/chvec_auth/index_en.php';
+	});
+});
+</script>
+
+
+
 <div align="center">
-	<img src="img/logo2.jpg" />
+	<img src="img/vec_logo1.jpg" />
 </div>
+
+<!-- jquery插件 -->
+<div id="tabs" style="width:955px;margin:0 auto;height:450px;">
+<ul>
+<li><a href="#tabs-1" id="tab1">微视频授权</a></li>
+<li><a href="#tabs-2" id="outdated_copy">过期拷贝清除</a></li>
+<li><a href="#tabs-3" id="tab3">未过期拷贝浏览</a></li>
+<li><a href="#tabs-4" id="tab4">已过期拷贝存根</a></li>
+<li style="float:right"><input type="button" value="返回首页" onclick="window.location.href='http://222.31.64.143/chinavec/index_en.php'"/></li>
+</ul>
+<div id="tabs-1">
+
+<!--<div class="authBody" style="margin-left:-25px;margin-top:-23px;*margin-left:-25px;*margin-top:-23px;">-->
 <div class="authBody">
-	<h1>微视频授权系统</h1>
-	<form id="authForm" action="do.php" method="post" enctype="multipart/form-data">
+	<h1 style="margin-top:0px;margin-bottom:0px;">微视频授权系统</h1>
+	
+		<form id="authForm" action="do.php" method="post" enctype="multipart/form-data">
 
 		<p style="margin-left:-222px;margin-top:10px">
 			选择授权视频：
 		</p>
-		    <a name="choose" type="button" class="btn btn-primary" style="margin-left:0px;margin-top:-62px" href='play_en.php' target='_self'>点击选择视频</a>
-		<p style="margin-left:1px;margin-right:-3px;margin-top:0px">选择授权类型：
-			<select type="text" name="authtype">
+		    <a name="choose" type="button" class="btn btn-primary" style="margin-left:27px;margin-top:-62px;*margin-top:-45px;color:#fff;" href='play.php' target='_self'>点击选择视频</a>
+		<input type="hidden" name="titlecn" value="" id="titlecn"/>
+		<p style="margin-left:9px;margin-right:-3px;margin-top:0px">选择授权类型：
+			<select type="text" name="authtype" style="margin-left:9px;">
 				<option value="F">公益授权</option>
 				<option value="P">付费授权</option>
 			</select>
 		</p>
-		<p style="margin-left:3px;margin-top:-2px">
+		<p style="margin-left:12px;margin-top:-2px">
 			请输入有效期:
-			<input style="margin-left:5px;margin-right:-2px;margin-top:4px" type="text" name="valid_dt" id="datepicker" placeholder="请输入有效期" />
+			<input style="margin-left:17px;margin-right:-2px;margin-top:4px" type="text" name="valid_dt" id="datepicker" placeholder="请输入有效期" />
 		</p>
 		
-		<p style="margin-left:-125px;margin-top:0px">选择视频格式：
-			<select type="text" name="format" style="width:86px">
+		<p style="margin-left:-121px;margin-top:0px">选择视频格式：
+			<select type="text" name="format" style="width:86px;margin-left:8px;">
 				<option value="mpg">mpg</option>
 				<option value="avi">avi</option>
 			</select>
@@ -44,12 +114,57 @@
 		</p>
 		<button name="submit" type="submit" class="btn btn-primary" style="margin-left:-156px;margin-top:6px">点击授权</button>	
 	</form>
-	<a name="logout" type="button" class="btn" style="margin-left:226px;margin-top:-93px" href='login.php'>退出</a>
+	<a name="logout" type="button" class="btn" style="margin-left:226px;margin-top:-93px;*margin-top:-60px;" href='loginout.php'>退出</a>
+	
 	
 </div>
+
+</div>
+
+<div id="tabs-2">
+<p>
+
+
+
+</p>
+</div>
+<div id="tabs-3" style="padding:0px 0px 0px 0px;">
+
+	<?php include "listdownload.php";?>
+	<!--<span>id</span>title_cn<span></span><span></span><span></span><span></span><span></span>-->
+</div>
+<!--<a href="#tabs-3" onclick="document.location.href='index.php'">ssss</a>-->
+
+<div id="tabs-4" style="padding:0px 0px 0px 0px;">
+
+	<?php include "listbackup.php";?>
+	<!--<span>id</span>title_cn<span></span><span></span><span></span><span></span><span></span>-->
+</div>
+</div>
+<!-- jquery插件结束 -->
+
+<!--授权判断开始-->
+<script type="text/javascript">
+				$(function() {
+					
+					$("#authForm").submit(function() {
+						if ($("#titlecn").val()) {
+							return true;
+						}
+						else {
+							alert("请选择视频！");
+							return false;
+						}
+					});
+				});
+</script>
+<!--授权判断结束-->
+
+<!--
 <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+-->
 <script type="text/javascript">
 jQuery(function($){
 	$("#datepicker").datepicker({//添加日期选择功能

@@ -4,6 +4,8 @@ require_once("lib/connect.php");
 $name=$_POST['user'];
 $password=md5($_POST['password']);
 $chkcode =md5($_POST['chkcode']);
+echo $name.$password;
+echo $chkcode.$_SESSION['randcode1'];
 //print_r($chkcode);
 //echo "<br/>";
 //print_r($_SESSION['randcode1']);
@@ -16,7 +18,10 @@ if($chkcode==$_SESSION['randcode1']){
 if ($name && $password ){
  $sql = "SELECT * FROM `user` WHERE `name`= '$name' and `password`='$password'";
  $res = mysql_query($sql);
- $rows=mysql_num_rows($res);
+// $rows= mysql_num_rows($res);
+ var_dump($sql);
+    var_dump($res);
+    exit;
   if($rows){
 	$_SESSION['user']=$name;
 	$_SESSION['password']=$password;
