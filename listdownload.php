@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!--
-<link href="css/redmond/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" />
+<!--<link href="css/redmond/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" />
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
- -->
+-->
 <title>授权微视频库</title>
 <link type="text/css" href="css/weishipin.css" rel="stylesheet"/>
 </head>
@@ -15,7 +14,7 @@
 	
 <table class="table table-bordered" style="width:955px;margin:auto">
 <thead style="border:solid 1px #bfcfda;background:-webkit-gradient(linear, left top, left bottom, from(#f4f5f8), to(#dce3eb));background:-moz-linear-gradient(top,#f4f5f8,#dce3eb);background:-o-linear-gradient(top,#f4f5f8,#dce3eb);filter:progid:DXImageTransform.Microsoft.Gradient(
-    StartColorStr=#f4f5f8,EndColorStr=#dce3eb,GradientType=0);background-color:#dce3eb;">
+    StartColorStr=#f4f5f8,EndColorStr=#dce3eb,GradientType=0);">
   <tr style="border-right:solid 1px #bfcfda;color:#000;">
 	<th>中文片名</th>
 	<th>英文片名</th>
@@ -23,7 +22,7 @@
 	<th>授权码</th> 
 	<th>有效期</th>
     	<th>授权目的</th>
-    	<th>下载地址</th>  
+    	<th>下载</th>  
   </tr> 
 </thead>
     <?php
@@ -38,24 +37,17 @@
           $page_no = $_GET['page_no'];
       }
       $start_num = $page_num * ($page_no - 1);//起始行号
-      //$sql = "SELECT * FROM  `authen` where `valid_dt`>'$now' order by `id` desc LIMIT $start_num , $page_num ";
       $sql = "SELECT * FROM  `authen` inner join `video` on `video`.`id` = `authen`.`video_id` where `valid_dt`>'$now' order by `authen`.`id` desc LIMIT $start_num , $page_num ";
 //$sql = "SELECT * FROM `video`";
       $result = mysql_query($sql);
       $nums = mysql_num_rows($result); 
       //$nm = mysql_num_rows($result);
       while ($result_row = mysql_fetch_assoc($result)) {
-	if(mb_strlen($result_row['purpose'],'utf8')>10){
-		$purpose = mb_substr($result_row['purpose'],0,6,'utf-8')."...";
-		}else{$purpose=$result_row['purpose'];}
-	if(mb_strlen($result_row['title_en'],'utf8')>26){
-		$title_en = mb_substr($result_row['title_en'],0,25,'utf-8')."...";
-		}else{$title_en=$result_row['title_en'];}
-	//$purpose = mb_substr($result_row['purpose'],0,6,'utf-8')."...";
-	//$title_en = mb_substr($result_row['title_en'],0,23,'utf-8')."...";
+	$purpose = mb_substr($result_row['purpose'],0,6,'utf-8')."...";
+	$title_en = mb_substr($result_row['title_en'],0,23,'utf-8')."...";
 	echo <<<TR
   <tr style="border-right:solid 1px #bfcfda;color:#000;">
-	<td>{$result_row['title_cn']}</td>
+	<td><a href='./authlist.php?page_no=1&name={$result_row['title_cn']}&tabs=3'>{$result_row['title_cn']}</a></td>
 	<td title='{$result_row['title_en']}'>$title_en</td>     
 	<td>{$result_row['type']}</td> 
 	<td>{$result_row['code']}</td> 
@@ -67,7 +59,7 @@ TR;
 	
 	
         echo <<<TR
-	<td><a href="fdown.php?name={$result_row['code']}.mpg">点击下载</a></td> 
+	<td><a href="fdown.php?name={$result_row['code']}.mpg">下载</a></td> 
   </tr> 
 TR;
 	}elseif(file_exists($file_dir.$result_row['code'].".avi")){
@@ -78,7 +70,7 @@ TR;
 TR;
 	}else{
 	echo <<<TR
-	<td>视频缺失</td> 
+	<td>缺失</td> 
   </tr> 
 TR;
 	}

@@ -28,6 +28,7 @@
 </thead>
     <?php
       require_once("lib/connect.php");
+      $now=date('Y-m-d');
       $page_num =15;//每页记录数为12
       if (!isset($_GET['page_no']))//page_no 空
       {

@@ -49,16 +49,17 @@ $( "#tabs" ).tabs();
 
 $(document).ready(function(){
 	$("#outdated_copy").click(function(){
-		$("#tabs-2").load("delete.php",{out:"",id:""});
+		$("#tabs-2").load("pre_delete.php",{out:"",id:""});
 	});
+
 	$("#tab4").click(function(){
-		window.location.href='http://222.31.88.66/chvec_auth/index.php?page_no=1#tabs-4';
+		window.location.href='http://222.31.64.143/chvec_auth/index.php?page_no=1#tabs-4';
 	});
 	$("#tab3").click(function(){
-		window.location.href='http://222.31.88.66/chvec_auth/index.php?page_no=1#tabs-3';
+		window.location.href='http://222.31.64.143/chvec_auth/index.php?page_no=1#tabs-3';
 	});
 	$("#tab1").click(function(){
-		window.location.href='http://222.31.88.66/chvec_auth/index.php';
+		window.location.href='http://222.31.64.143/chvec_auth/index.php';
 	});
 });
 </script>
@@ -76,7 +77,7 @@ $(document).ready(function(){
 <li><a href="#tabs-2" id="outdated_copy">过期拷贝清除</a></li>
 <li><a href="#tabs-3" id="tab3">未过期拷贝浏览</a></li>
 <li><a href="#tabs-4" id="tab4">已过期拷贝存根</a></li>
-<li style="float:right"><input type="button" value="返回首页" onclick="window.location.href='http://222.31.88.66/chinavec/index.php'"/></li>
+<li style="float:right"><input type="button" value="返回首页" onclick="window.location.href='http://222.31.64.143/chinavec/index.php'"/></li>
 </ul>
 <div id="tabs-1">
 

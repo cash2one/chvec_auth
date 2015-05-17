@@ -5,6 +5,7 @@
 
 <input type="hidden" name="time" value="<?php echo date('Y-m-d');?>"/> </td>
 
+
 </html>
 <?php
 include "./lib/connect.php";
@@ -15,8 +16,10 @@ $file="";
 $file1="";
 $sql="SELECT * FROM `authen` WHERE `valid_dt`<'$now'";
 $query=mysql_query($sql);
+
 if($query){
-	echo "<div id='delete' style='margin:150px auto;font-size:20px;' align='center';><img src='img/loading.gif' width='20' style='margin-right:5px;' />正在删除过期视频，请稍候....</div>";
+	//echo "<div id='delete' style='margin:150px auto;font-size:20px;' align='center';><img src='img/loading.gif' width='20' style='margin-right:5px;' />请稍候....</div>";
+//exit;
 	echo $_POST['out'];
 
 	while($result=mysql_fetch_array($query)){
@@ -82,7 +85,7 @@ if($query){
 		}
 	};
 	
-	echo "<script>setTimeout(\"$('#delete').html('过期视频已删除')\",6000)</script>";
+	//echo "<script>setTimeout(\"$('#delete').html('过期视频已删除')\",6000)</script>";
 }else{
 	$_POST['out']="过期视频已删除";
 	echo $_POST['out'];

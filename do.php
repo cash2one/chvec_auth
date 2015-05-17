@@ -9,6 +9,8 @@
 	$result=mysql_query($sql);
 	$row=mysql_fetch_array($result);
 	$user_id=$row['id'];
+	$isClient = $row['client'];
+	$client = $_COOKIE['client'];
 	
 
 
@@ -16,15 +18,22 @@
 	$showtime=date("Y-m-d");
 	$authen_date = strtotime($showtime);
 
+	if(isset($_POST['subtitle'])){
+		$_POST['subtitle'] = $_POST['subtitle'];
+	} else {
+		$_POST['subtitle'] = '';
+	}
 	$formPostData = array(
 		'authType'	=>	$_POST['authtype'],
-		'playscene'	=>	$_POST['playscene'],
+		'p_playscene'	=>	$_POST['p_playscene'],
 		'validDate'	=>	$_POST['valid_dt'],
 		'videoName'	=>	$_POST['titlecn'],
 		'authPurpose'=> $_POST['purpose'],
 		'period'=> rand($_POST['timeinterval']-$_POST['randominterval'],$_POST['timeinterval']+$_POST['randominterval']),
 		'time'=> rand($_POST['displaytime']-$_POST['displayrandom'],$_POST['displaytime']+$_POST['displayrandom']),
-		'authFormat'=> $_POST['format']
+		'authFormat'=> $_POST['format'],
+		'subtitle'=>$_POST['subtitle'],
+		'stream'=>$_POST['stream']
 	);
 	//print_r($formPostData['authType']);
 	//print_r($formPostData['playscene']);
@@ -32,12 +41,13 @@
 	//print_r($_POST['authType']);
 
 	//echo "</br>";
-	//print_r($formPostData['time']);
-	//exit;
+	// print_r($formPostData['stream']);
+	// exit;
 	//echo "</br>";
 	$formPostData['period']=round($formPostData['period']/1000);
 	$formPostData['time']=round($formPostData['time']/1000);
-	//echo $formPostData['period'];
+	$stream = $formPostData['subtitle'] . $formPostData['stream'];
+ 	// echo $stream;
 	//echo "</br>";
 	//echo $formPostData['time'];
 	//exit;
@@ -81,11 +91,11 @@
     	//print_r("$validCode" . '.'."$format");
 	//exit; 
 	if ($formPostData['authType']=="F") {
-		exec("/var/www/chvec_auth/auth_free.sh $validCode {$formPostData['validDate']} $videoId '{$formPostData['authPurpose']}' $validPath {$formPostData['authFormat']} {$formPostData['period']} {$formPostData['time']} > /dev/null & ");
+		exec("/var/www/chvec_auth/auth_free.sh $validCode {$formPostData['validDate']} $videoId '{$formPostData['authPurpose']}' $validPath {$formPostData['authFormat']} {$formPostData['period']} $stream > /dev/null & ");
 		} elseif ($formPostData['authType']=="P"&& $formPostData['playscene']=="cinema"){	
 		exec("/var/www/chvec_auth/auth_p_cinema.sh $validCode {$formPostData['validDate']} $videoId '{$formPostData['authPurpose']}' $validPath {$formPostData['authFormat']} {$formPostData['period']} {$formPostData['time']} > /dev/null & ");
 		} elseif ($formPostData['authType']=="P"){
-		exec("/var/www/chvec_auth/auth_p_person.sh $validCode {$formPostData['validDate']} $videoId '{$formPostData['authPurpose']}' $validPath {$formPostData['authFormat']} {$formPostData['period']} {$formPostData['time']} > /dev/null & ");
+		exec("/var/www/chvec_auth/auth_p_person.sh $validCode {$formPostData['validDate']} $videoId '{$formPostData['authPurpose']}' $validPath {$formPostData['authFormat']} {$formPostData['period']} {$formPostData['time']} {$formPostData['subtitle']} > /dev/null & ");
 	}
 	//exec("/var/www/chvec_auth/all.sh $validCode {$formPostData['validDate']} $videoId '{$formPostData['authPurpose']}' $validPath {$formPostData['authFormat']} {$formPostData['period']} {$formPostData['time']} > /dev/null & ");
 ?>
@@ -125,12 +135,49 @@
 	text-align:center;
 	position: absolute;
 	}
+	.notice{
+	width:960px;
+	margin-top:16%;
+	margin-left:-100px;
+	position:absolute;
+	}
+	.warn{
+	display: block;
+	padding-top: 35px;
+	background-color: #fff;
+	width:489px;
+	border: 1px solid #000;
+	height:110px;
+	position:fixed;
+	border-radius: 5px;
+	top: 48%;
+	left:31%;
+	overflow: hidden;
+	text-align: center;
+	z-index: 9;
+	}
+	.warn a{
+		margin-top: 26px;
+	}
+	.bg{
+		display: block;
+		top: 0;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background-color: #000;
+		z-index: 1;
+		opacity: 0.5;
+		-moz-opacity:0.5;
+		filter:alpha(opacity=50);
+	}
 </style>
+<div class="bg"></div>
 <div align="center">
 	<img src="img/vec_logo1.jpg" />
 </div>
 <div class="authBody" style="position:relative;">
-	<h1 style="font-size:22.5px">ChinaVEC 微视频授权拷贝生成器 VideoAuth 1.0.1
+	<h1 style="font-size:22.5px">ChinaVEC 微视频授权拷贝生成器 VideoAuth 2.0.1
 </h1>
 	<div class="authInfo" style="height:190px;">
 		<p>
@@ -151,10 +198,11 @@
   <div id="iLoading"></div>
 </div>
 
-<div style="width:960px;height:100px;">
+<div style="width:960px;height:200px;">
 
 	<div style="margin-top:10px;" id="authButton" class="hidden" ><img src="img/loading.gif" width="14px" style="margin-right:5px;" />正在生成授权拷贝，请稍候...
 	</div>
+	<div class="notice"><a href="./index.php?page_no=1#tab-3">若页面长期无反应，请点击这里</a></div>
 	<div id="authvideodown" style="width:400px;height:78px;"></div>
 	<div id="back" style="width:700px;height:78px;padding-right:40px;"></div>
 </div>
@@ -162,8 +210,12 @@
 	</div>
 
 </div>
+<div class="warn">
+	<p>系统未检测到你下载了视频水印检测软件，请点击下方按钮下载视频检测软件</p>
+	<a class="btn btn-primary" id="warn-btn" href="downexe.php">下载</a>
+</div>
 <?php
-
+/*
 $filesize =  filesize("$validPath");
 $size 	  =  intval(floor($filesize/1048576));
 $differ	  =  $videoDur-$size;
@@ -175,6 +227,8 @@ else if(abs($differ)>130){
 	$ti =intval(floor($videoDur/2));
 	$tim=intval(floor($ti/0.3));
 }
+
+*/
 //$tim=intval(floor($ti/0.3));
 //exit;
 /*
@@ -187,6 +241,20 @@ else if(abs($differ)>130){
 
 
 <script type="text/javascript">
+$(document).ready(function(){
+	var client = "<?php echo $client; ?>";
+	var isClient = "<?php echo $isClient; ?>";
+	if(client == 'true' || isClient == '1'){
+		$(".warn").css("display", "none");
+		$(".bg").css("display", "none");
+	}
+	$("#warn-btn").click(function(){
+		$(".warn").css("display", "none");
+		$(".bg").css("display", "none");
+	});
+});
+
+/*
 window.onload=function(){
 	   var idiv=document.getElementById('iLoading');
 	   var ibox=document.getElementById('ibox');
@@ -201,34 +269,59 @@ window.onload=function(){
 	     	    }
 			},"<?php echo $tim;?>");
 }
+*/
 </script>
 
 <script type="text/javascript">
 jQuery(function($){
+	var idiv=document.getElementById('iLoading');
+	var ibox=document.getElementById('ibox');//获取进度条
 	var Timer1 = setInterval(function(){
 		$.post(
 			'file_exist.php',
 			{
-				'fileName'	: "<?php echo "$validCode" . '.' . "$format";?>"
+				'fileName'	: "<?php echo "$validCode" . '.' . "$format";?>",
 			},
 			function (data) {
 				if (data == "") {
 					clearInterval(Timer1);
 
+					idiv.style.width = '300' + 'px';
+					idiv.innerHTML = '100' + "%";
 					setTimeout(function () {
 						$.post('jiami.php',{'fileName'	: "<?php echo "$validCode" . '.' . "$format" . ' ' . "$valid_dt";?>"});		
 						$("#ibox").remove();
 						$("#iLoading").remove();
 						$("#authButton").remove();
+						$(".notice").remove();
 						$('<a style="right:550px;"/>').addClass("btn btn-success").attr('href', 'fdown.php?name=' + "<?php echo $validCode;?>" + '.' + "<?php echo $format;?>").text('点击下载').appendTo("#authvideodown");
 						
 						$("#backToIndex").attr('href', 'index.php');
 						$('<a style="right:300px;"/>').addClass("btn btn-primary").attr('href', 'index.php').text('返回').appendTo(".authBody #back");
-					}, 10000);
+					}, 3000);
 				};
 			}
 		);
-	}, 15000);
+	}, 10000);
+	var Timer2 = setInterval(function(){
+		$.post(
+			'getTime.php',
+			{
+				'validCode'	: "<?php echo "$validCode";?>"
+			},
+			function (data) {
+				var num = parseInt(data);
+				if(num === 100){
+					clearInterval(Timer2);
+				} else if(num == 'NaN' || num == "") {
+					idiv.innerHTML = '0' + "%";
+				} else {
+					idiv.style.width = num * 3 + 'px';
+					idiv.innerHTML =Math.round(num) + "%";
+				}
+			}
+		)
+	},3000);
 });
 </script>
 <?php include 'lib/footer.php'; ?>
